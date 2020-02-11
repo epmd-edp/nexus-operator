@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "300b8f54_e9f80871",
+        "filename": "deploy-templates/crds/edp_v1alpha1_nexus_crd.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2020-02-11T11:45:02Z",
+      "side": 1,
+      "message": "Do not see edpSpec",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "6d68cbde88b951139d5841fc0f60722b6045eede",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e875653_90340c30",
+        "filename": "deploy-templates/crds/edp_v1alpha1_nexus_crd.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2020-02-11T11:45:02Z",
+      "side": 1,
+      "message": "edpSpec, version, image should be here according to nexus_types.go",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 26
+      },
+      "revId": "6d68cbde88b951139d5841fc0f60722b6045eede",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db4d0c7f_87eb922f",
+        "filename": "pkg/apis/edp/v1alpha1/nexus_types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2020-02-11T11:45:02Z",
+      "side": 1,
+      "message": "still here)",
+      "range": {
+        "startLine": 15,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "6d68cbde88b951139d5841fc0f60722b6045eede",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    }
+  ]
+}
