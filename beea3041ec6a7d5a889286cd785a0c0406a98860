@@ -22,6 +22,30 @@
       "revId": "beea3041ec6a7d5a889286cd785a0c0406a98860",
       "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc8e6d5d_877da7ac",
+        "filename": "deploy-templates/crds/edp_v1alpha1_nexus_crd.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2020-02-11T14:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea27967_d55f4027",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 26
+      },
+      "revId": "beea3041ec6a7d5a889286cd785a0c0406a98860",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": false
     }
   ]
 }
