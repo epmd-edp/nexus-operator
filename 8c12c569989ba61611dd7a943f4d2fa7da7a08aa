@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61e19066_069b07ce",
+        "filename": "pkg/apis/edp/v1alpha1/nexus_types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2020-02-11T08:27:45Z",
+      "side": 1,
+      "message": "Should be required parameter, and please update the CRD specification as well",
+      "range": {
+        "startLine": 15,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "8c12c569989ba61611dd7a943f4d2fa7da7a08aa",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    }
+  ]
+}
