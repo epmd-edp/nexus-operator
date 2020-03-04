@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fea33227_d7c570e1",
+        "filename": "deploy-templates/crds/edp_v1alpha1_nexus_cr.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2020-03-04T08:17:29Z",
+      "side": 1,
+      "message": "Add this field to documentation/puml/arch.puml diagram",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "e673d03ffbc1e704ab7cce46a380018ecc6cea84",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": false
+    }
+  ]
+}
