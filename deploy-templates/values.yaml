@@ -1,0 +1,13 @@
+name: nexus-operator
+namespace: "test-go-env"
+platform: "openshift"
+cdPipelineName: ""
+cdPipelineStageName: ""
+dnsWildcard: ""
+database:
+  required: false
+ingress:
+  required: false
+image:
+  name: docker-registry.default.svc:5000/oc-green-edp-cicd/nexus-operator-master
+  version: latest
