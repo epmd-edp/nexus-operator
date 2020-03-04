@@ -1,0 +1,50 @@
+{{- if eq .Values.platform "openshift" -}}
+apiVersion: authorization.openshift.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    openshift.io/description: Role for admin-console-operator-edp service account
+    openshift.io/reconcile-protect: "false"
+  name: nexus-operator-role-{{ .Values.namespace }}
+rules:
+- apiGroups:
+    - '*'
+  attributeRestrictions: null
+  resources:
+     - securitycontextconstraints
+   verbs:
+     - patch
+     - update
+     - delete
+     - get
+     - list
+    - create
+- apiGroups:
+    - '*'
+  attributeRestrictions: null
+  resources:
+    - nexuses
+    - nexuses/finalizers
+    - nexuses/status
+  verbs:
+    - '*'
+- apiGroups:
+    - '*'
+  attributeRestrictions: null
+  resources:
+    - keycloaks
+    - keycloaks/status
+    - keycloakclients
+    - keycloakclients/finalizers
+    - keycloakclients/status
+    - keycloakrealms
+    - keycloakrealms/status
+    - jenkinsserviceaccounts
+    - jenkinsscripts
+    - edpcomponents
+    - nexuses
+    - nexuses/finalizers
+    - nexuses/status
+  verbs:
+    - '*'
+{{ end }}
