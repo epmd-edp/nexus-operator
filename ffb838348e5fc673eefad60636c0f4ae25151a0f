@@ -1,0 +1,7 @@
+Code-Review+2: Pavlo Yemelianov <pavlo_yemelianov@epam.com>
+Verified+1: CI Jenkins
+Submitted-by: Pavlo Yemelianov <pavlo_yemelianov@epam.com>
+Submitted-at: Fri, 06 Mar 2020 09:23:48 +0000
+Reviewed-on: https://gerrit-oc-green-edp-cicd.delivery.aws.main.edp.projects.epam.com/c/nexus-operator/+/420
+Project: nexus-operator
+Branch: refs/heads/master
