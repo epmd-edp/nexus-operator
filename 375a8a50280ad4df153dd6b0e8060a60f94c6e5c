@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55c3732c_36bf6bba",
+        "filename": "pkg/service/nexus/nexus.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-03-10T09:12:50Z",
+      "side": 1,
+      "message": "This should be removed too",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "375a8a50280ad4df153dd6b0e8060a60f94c6e5c",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": false
+    }
+  ]
+}
