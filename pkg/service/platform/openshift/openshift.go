@@ -20,7 +20,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/rest"
-	"reflect"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
@@ -127,13 +126,13 @@ func (service OpenshiftService) CreateSecurityContext(instance v1alpha1.Nexus, p
 		}
 		return err
 	}
-	if !reflect.DeepEqual(scc.Users, sccObject.Users) {
+	/*	if !reflect.DeepEqual(scc.Users, sccObject.Users) {
 		scc, err = service.securityClient.SecurityContextConstraints().Update(sccObject)
 		if err != nil {
 			return err
 		}
 		log.Info(fmt.Sprintf("Security Context Constraint %s has been updated", scc.Name))
-	}
+	}*/
 
 	return nil
 }
