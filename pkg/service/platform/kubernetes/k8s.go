@@ -1,6 +1,7 @@
 package kubernetes
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	edpCompApi "github.com/epmd-edp/edp-component-operator/pkg/apis/v1/v1alpha1"
@@ -22,10 +23,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/intstr"
+	"k8s.io/client-go/kubernetes/scheme"
 	appsV1Client "k8s.io/client-go/kubernetes/typed/apps/v1"
 	coreV1Client "k8s.io/client-go/kubernetes/typed/core/v1"
 	extensionsV1Client "k8s.io/client-go/kubernetes/typed/extensions/v1beta1"
 	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/tools/remotecommand"
 	"os"
 	"path/filepath"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -132,7 +136,7 @@ func (s K8SService) UpdateExternalTargetPath(instance v1alpha1.Nexus, targetPort
 func (s K8SService) CreateDeployment(instance v1alpha1.Nexus) error {
 	l := platformHelper.GenerateLabels(instance.Name)
 	var rc int32 = 1
-	var fsg int64 = 200
+	//	var fsg int64 = 200
 	t := true
 	f := false
 
@@ -222,10 +226,10 @@ func (s K8SService) CreateDeployment(instance v1alpha1.Nexus) error {
 						},
 					},
 					SecurityContext: &coreV1Api.PodSecurityContext{
-						FSGroup:      &fsg,
+						//						FSGroup:      &fsg,
 						RunAsNonRoot: &t,
-						RunAsUser:    &fsg,
-						RunAsGroup:   &fsg,
+						//						RunAsUser:    &fsg,
+						//						RunAsGroup:   &fsg,
 					},
 					ServiceAccountName: instance.Name,
 					Volumes: []coreV1Api.Volume{
@@ -820,4 +824,73 @@ func (s K8SService) createEDPComponent(nexus v1alpha1.Nexus, url string, icon st
 		EDPComponents(nexus.Namespace).
 		Create(obj)
 	return err
+}
+
+// GetPods returns Pod list according to the filter
+func (s K8SService) GetPods(namespace string, filter metav1.ListOptions) (*coreV1Api.PodList, error) {
+	PodList, err := s.CoreClient.Pods(namespace).List(filter)
+	if err != nil {
+		return &coreV1Api.PodList{}, err
+	}
+
+	return PodList, nil
+}
+
+// ExecInPod executes command in pod
+func (s K8SService) ExecInPod(namespace string, podName string, containerName string, command []string) (string, string, error) {
+	pod, err := s.CoreClient.Pods(namespace).Get(podName, metav1.GetOptions{})
+	if err != nil {
+		return "", "", err
+	}
+
+	req := s.CoreClient.RESTClient().
+		Post().
+		Namespace(pod.Namespace).
+		Resource("pods").
+		Name(pod.Name).
+		SubResource("exec").
+		VersionedParams(&coreV1Api.PodExecOptions{
+			Container: containerName,
+			Command:   command,
+			Stdin:     false,
+			Stdout:    true,
+			Stderr:    true,
+			TTY:       false,
+		}, scheme.ParameterCodec)
+
+	restConfig, err := newRestConfig()
+	if err != nil {
+		return "", "", err
+	}
+
+	exec, err := remotecommand.NewSPDYExecutor(restConfig, "POST", req.URL())
+	if err != nil {
+		return "", "", err
+	}
+
+	var stdout, stderr bytes.Buffer
+	err = exec.Stream(remotecommand.StreamOptions{
+		Stdin:  nil,
+		Stdout: &stdout,
+		Stderr: &stderr,
+		Tty:    false,
+	})
+	if err != nil {
+		return "", stderr.String(), err
+	}
+
+	return stdout.String(), stderr.String(), nil
+}
+
+func newRestConfig() (*rest.Config, error) {
+	config := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
+		clientcmd.NewDefaultClientConfigLoadingRules(),
+		&clientcmd.ConfigOverrides{},
+	)
+	restConfig, err := config.ClientConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	return restConfig, nil
 }

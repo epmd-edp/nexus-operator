@@ -19,6 +19,7 @@ import (
 	"github.com/pkg/errors"
 	"io/ioutil"
 	coreV1Api "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"os"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -89,6 +90,30 @@ func (n NexusServiceImpl) getNexusAdminPassword(instance v1alpha1.Nexus) (string
 		return "", errors.Wrapf(err, "failed to get Secret %v for %v/%v", secretName, instance.Namespace, instance.Name)
 	}
 	return string(nexusAdminCredentials["password"]), nil
+}
+
+func (n NexusServiceImpl) getNexusDefaultAdminPassword(instance v1alpha1.Nexus) (string, error) {
+	podList, err := n.platformService.GetPods(instance.Namespace, metav1.ListOptions{LabelSelector: "deploymentconfig=" + instance.Name})
+	if err != nil || len(podList.Items) != 1 {
+		return "", errors.Wrapf(err, "Unable to determine Nexus pod name: %v", len(podList.Items))
+	}
+
+	cmd := []string{
+		"/bin/sh",
+		"-c",
+		"if [ -e /nexus-data/admin.password ];then cat /nexus-data/admin.password; fi",
+	}
+
+	pass, stdErr, err := n.platformService.ExecInPod(instance.Namespace, podList.Items[0].Name, "nexus", cmd)
+
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get Default admin password form pod %v for %v/%v", stdErr, instance.Namespace, instance.Name)
+	}
+
+	if pass == "" {
+		return nexusDefaultSpec.NexusDefaultAdminPassword, nil
+	}
+	return pass, nil
 }
 
 func (n NexusServiceImpl) setAnnotation(instance *v1alpha1.Nexus, key string, value string) {
@@ -309,6 +334,21 @@ func (n NexusServiceImpl) getIcon() (*string, error) {
 
 // Configure performs self-configuration of Nexus
 func (n NexusServiceImpl) Configure(instance v1alpha1.Nexus) (*v1alpha1.Nexus, bool, error) {
+	defPass, err := n.getNexusDefaultAdminPassword(instance)
+	if err != nil {
+		return &instance, false, errors.Wrap(err, "failed to get Nexus default admin password from pod")
+	}
+
+	adminSecret := map[string][]byte{
+		"user":     []byte(nexusDefaultSpec.NexusDefaultAdminUser),
+		"password": []byte(defPass),
+	}
+
+	err = n.platformService.CreateSecret(instance, instance.Name+"-admin-password", adminSecret)
+	if err != nil {
+		return &instance, false, errors.Wrap(err, "failed to create Secret")
+	}
+
 	u, err := n.getNexusRestApiUrl(instance)
 	if err != nil {
 		return &instance, false, errors.Wrap(err, "failed to get Nexus REST API URL")
@@ -347,7 +387,7 @@ func (n NexusServiceImpl) Configure(instance v1alpha1.Nexus) (*v1alpha1.Nexus, b
 		return &instance, false, errors.Wrap(err, "default scripts are not uploaded yet")
 	}
 
-	if nexusPassword == nexusDefaultSpec.NexusDefaultAdminPassword {
+	if nexusPassword == defPass {
 		updatePasswordParameters := map[string]interface{}{"new_password": uniuri.New()}
 
 		nexusAdminPassword, err := n.platformService.GetSecret(instance.Namespace, instance.Name+"-admin-password")
@@ -511,18 +551,7 @@ func (n NexusServiceImpl) Configure(instance v1alpha1.Nexus) (*v1alpha1.Nexus, b
 
 // Install performs installation of Nexus
 func (n NexusServiceImpl) Install(instance v1alpha1.Nexus) (*v1alpha1.Nexus, error) {
-
-	adminSecret := map[string][]byte{
-		"user":     []byte(nexusDefaultSpec.NexusDefaultAdminUser),
-		"password": []byte(nexusDefaultSpec.NexusDefaultAdminPassword),
-	}
-
-	err := n.platformService.CreateSecret(instance, instance.Name+"-admin-password", adminSecret)
-	if err != nil {
-		return &instance, errors.Wrap(err, "failed to create Secret")
-	}
-
-	err = n.platformService.CreateVolume(instance)
+	err := n.platformService.CreateVolume(instance)
 	if err != nil {
 		return &instance, errors.Wrap(err, "failed to create Volume")
 	}
