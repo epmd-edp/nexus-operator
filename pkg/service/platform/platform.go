@@ -9,6 +9,7 @@ import (
 	"github.com/epmd-edp/nexus-operator/v2/pkg/service/platform/openshift"
 	"github.com/pkg/errors"
 	coreV1Api "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/tools/clientcmd"
@@ -46,6 +47,8 @@ type PlatformService interface {
 	CreateKeycloakClient(kc *keycloakV1Api.KeycloakClient) error
 	GetKeycloakClient(name string, namespace string) (keycloakV1Api.KeycloakClient, error)
 	CreateEDPComponentIfNotExist(instance v1alpha1.Nexus, url string, icon string) error
+	GetPods(namespace string, filter metav1.ListOptions) (*coreV1Api.PodList, error)
+	ExecInPod(namespace string, podName string, containerName string, command []string) (string, string, error)
 }
 
 // NewPlatformService returns platform service interface implementation
