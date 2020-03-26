@@ -19,6 +19,7 @@ import (
 	"github.com/pkg/errors"
 	"io/ioutil"
 	coreV1Api "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"os"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -309,6 +310,7 @@ func (n NexusServiceImpl) getIcon() (*string, error) {
 
 // Configure performs self-configuration of Nexus
 func (n NexusServiceImpl) Configure(instance v1alpha1.Nexus) (*v1alpha1.Nexus, bool, error) {
+
 	u, err := n.getNexusRestApiUrl(instance)
 	if err != nil {
 		return &instance, false, errors.Wrap(err, "failed to get Nexus REST API URL")
@@ -347,7 +349,7 @@ func (n NexusServiceImpl) Configure(instance v1alpha1.Nexus) (*v1alpha1.Nexus, b
 		return &instance, false, errors.Wrap(err, "default scripts are not uploaded yet")
 	}
 
-	if nexusPassword == nexusDefaultSpec.NexusDefaultAdminPassword {
+	if nexusPassword == defPass {
 		updatePasswordParameters := map[string]interface{}{"new_password": uniuri.New()}
 
 		nexusAdminPassword, err := n.platformService.GetSecret(instance.Namespace, instance.Name+"-admin-password")
@@ -511,10 +513,9 @@ func (n NexusServiceImpl) Configure(instance v1alpha1.Nexus) (*v1alpha1.Nexus, b
 
 // Install performs installation of Nexus
 func (n NexusServiceImpl) Install(instance v1alpha1.Nexus) (*v1alpha1.Nexus, error) {
-
 	adminSecret := map[string][]byte{
 		"user":     []byte(nexusDefaultSpec.NexusDefaultAdminUser),
-		"password": []byte(nexusDefaultSpec.NexusDefaultAdminPassword),
+		"password": []byte(defPass),
 	}
 
 	err := n.platformService.CreateSecret(instance, instance.Name+"-admin-password", adminSecret)
