@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bed2a103_06c57b65",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-04-06T07:54:12Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 5,
+        "startChar": 83,
+        "endLine": 5,
+        "endChar": 87
+      },
+      "revId": "59d951c5954157eec6d074336476756fb88cf1ed",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fa9e7d9_71e48703",
+        "filename": "deploy-templates/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-04-06T07:54:12Z",
+      "side": 1,
+      "message": "Lets set default image to dockerhub",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 22
+      },
+      "revId": "59d951c5954157eec6d074336476756fb88cf1ed",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    }
+  ]
+}
