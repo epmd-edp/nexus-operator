@@ -1,0 +1,7 @@
+Verified+1: CI Jenkins
+Code-Review+2: Serhii Shydlovskyi <serhii_shydlovskyi@epam.com>
+Submitted-by: Serhii Shydlovskyi <serhii_shydlovskyi@epam.com>
+Submitted-at: Thu, 18 Jun 2020 13:25:31 +0000
+Reviewed-on: https://gerrit-oc-green-edp-cicd.delivery.aws.main.edp.projects.epam.com/c/nexus-operator/+/3025
+Project: nexus-operator
+Branch: refs/heads/master
