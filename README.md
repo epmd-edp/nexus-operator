@@ -16,17 +16,27 @@ _**NOTE:** Installation of operators is platform-independent, that is why there 
 _**NOTE:** It is highly recommended to use the latest released version._
 
 * Go to the unzipped directory and deploy operator:
+
+Parameters:
+ ```
+    - global.edpName                                # a namespace or a project name (in case of OpenShift);
+    - global.platform                               # OpenShift or Kubernetes;
+    - global.admins                                 # Administrators of your tenant separated by comma (,) (eg --set 'global.admins={test@example.com}');
+    - global.dnsWildCard                            # Developers of your tenant separated by comma (,) (eg --set 'global.developers={test@example.com}');
+    - image.name                                    # EDP image. The released image can be found on [Dockerhub](https://hub.docker.com/repository/docker/epamedp/nexus-operator);
+    - image.version                                 # EDP tag. The released image can be found on [Dockerhub](https://hub.docker.com/repository/docker/epamedp/nexus-operator/tags);
+    - nexus.deploy                                  # Flag to enable/disable Nexus deploy;
+    - nexus.name                                    # Nexus name;
+    - nexus.image                                   # Image for Nexus. The image can be found on [Dockerhub] (https://hub.docker.com/r/sonatype/nexus3);
+    - nexus.version                                 # Nexus version. The released version can be found on [Dockerhub](https://hub.docker.com/r/sonatype/nexus3/tags)'
+ ```
+
+_**NOTE:** Follow instruction to create namespace [edp-install-openshift](https://github.com/epmd-edp/edp-install/blob/master/documentation/openshift_install_edp.md#install-edp) or [edp-install-kubernetes](https://github.com/epmd-edp/edp-install/blob/master/documentation/kubernetes_install_edp.md#install-edp)._
+
+Inspect the sample of launching a Helm template for Nexus operator installation:
 ```bash
-helm install nexus-operator --namespace <edp_cicd_project> --set name=nexus-operator --set namespace=<edp_cicd_project> --set platform=<platform_type> --set image.name=epamedp/nexus-operator --set image.version=<operator_version> --set dnsWildcard=<dns_wildcard> deploy-templates
+helm install nexus-operator --namespace <edp_cicd_project> --set name=nexus-operator --set global.edpName=<edp_cicd_project> --set global.platform=<platform_type> deploy-templates
 ```
-
-- _<edp_cicd_project> - a namespace or a project name (in case of OpenShift) that is created by one of the instructions: [edp-install-openshift](https://github.com/epmd-edp/edp-install/blob/master/documentation/openshift_install_edp.md#install-edp) or [edp-install-kubernetes](https://github.com/epmd-edp/edp-install/blob/master/documentation/kubernetes_install_edp.md#install-edp);_ 
-
-- _<platform_type> - a platform type that can be "kubernetes" or "openshift";_
-
-- _<operator_version> - a selected release version;_
-
-- _<dns_wildcard> - a cluster DNS wildcard name_.
 
 * Check the <edp_cicd_project> namespace that should contain Deployment with your operator in a running status
 
