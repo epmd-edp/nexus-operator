@@ -8,6 +8,10 @@
     "path": "/nexus-data/blobs/edp-maven"
   },
   {
+    "name": "edp-pypi",
+    "path": "/nexus-data/blobs/edp-pypi"
+  },
+  {
     "name": "edp-dotnet",
     "path": "/nexus-data/blobs/edp-dotnet"
   }
