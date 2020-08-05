@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a8ffd1_2cd1c9df",
+        "filename": "deploy-templates/templates/deployment/nexus_deployment_kubernetes.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-08-05T13:14:28Z",
+      "side": 1,
+      "message": "Replace with apps/v1 for Kubernetes 1.16 support",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 30
+      },
+      "revId": "74214af879e23ee4d27690b7ddafa563e4d023c2",
+      "serverId": "0350cb7f-c1b1-4710-a647-f6632dbafb3c",
+      "unresolved": true
+    }
+  ]
+}
