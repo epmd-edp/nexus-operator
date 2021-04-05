@@ -1,3 +1,6 @@
+|![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/156px-Warning.svg.png) | This project is moved to [https://github.com/epam/edp-nexus-operator](https://github.com/epam/edp-nexus-operator)
+|---|---|
+
 # Nexus Operator
 
 Get acquainted with the Nexus Operator and the installation process as well as the local development, 
